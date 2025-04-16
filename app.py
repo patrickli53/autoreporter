@@ -18,9 +18,9 @@ if "stop_requested" not in st.session_state:
 
 
 # --- Configuration & Constants ---
-APP_TITLE = "Autoreporter: Reporting Guideline Assessment"
+APP_TITLE = "AutoReporter: Reporting Guideline Assessment"
 GUIDELINE_FILE = "CONSORT_Guideline.csv"
-MODEL_OPTIONS = [
+MODEL_OPTIONS = sorted([
     'gpt-4.1',
     'gpt-4.1-mini',
     'gpt-4.1-nano',
@@ -33,7 +33,7 @@ MODEL_OPTIONS = [
     'o3',
     'o4-mini',
     'gpt-4-turbo'
-]
+])
 DEFAULT_MODEL = 'o3-mini'
 
 
@@ -388,7 +388,7 @@ guideline_dir = "Guidelines"
 guideline_files = [f for f in os.listdir(guideline_dir) if f.endswith(".xlsx")]
 
 # Create a mapping: display name (no .xlsx) -> actual filename
-display_names = [f.replace(".xlsx", "") for f in guideline_files]
+display_names = sorted([f.replace(".xlsx", "") for f in guideline_files])
 filename_map = dict(zip(display_names, guideline_files))
 
 # Display filenames without extension
@@ -413,7 +413,7 @@ article_text = st.text_area("Paste Full Text of Research Article Here", height=4
 
 
 st.header("Assessment")
-if st.button("Run Adherence Assessment"):
+if st.button("Run Autoreporter"):
     if not api_key:
         st.warning("Please enter your OpenAI API key in the sidebar.")
     elif not article_text:
@@ -440,7 +440,7 @@ if st.button("Run Adherence Assessment"):
         else:
             st.error("Assessment could not be completed due to errors.")
 else:
-    st.info("Configure settings in the sidebar, paste article text, and click 'Run Adherence Assessment'.")
+    st.info("Configure settings in the sidebar, paste article text, and click 'Run AutoReporter'.")
 
 st.sidebar.markdown("---")
 st.sidebar.caption("Ensure you have the necessary permissions and adhere to OpenAI's usage policies.")
