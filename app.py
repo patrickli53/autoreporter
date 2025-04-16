@@ -184,19 +184,34 @@ def generate_context(query: str, instruction=instruction):
 
     return message
 
-def bm25_retrieval(query: str, top_k : int , bm25_index, contextual_chunks) -> List[int]:
+
+def bm25_retrieval(query: str, top_k: int, bm25_index, contextual_chunks: List[str]) -> List[int]:
     """
     Retrieve the top-k document indices based on the BM25 algorithm for a given query.
+
     Args:
         query (str): The search query string.
-        k (int): The number of top documents to retrieve.
+        top_k (int): The number of top documents to retrieve.
         bm25_index: The BM25 index object used for retrieval.
+        contextual_chunks (List[str]): The corpus of documents.
+
     Returns:
         List[int]: A list of indices of the top-k documents that match the query.
     """
+    # Determine the actual number of documents to retrieve
+    actual_k = min(top_k, len(contextual_chunks))
 
-    results, scores = bm25_index.retrieve(bm25s.tokenize(query), k=top_k)
+    # Handle the case where the corpus is empty
+    if actual_k == 0:
+        return []
 
+    # Tokenize the query
+    query_tokens = bm25s.tokenize(query)
+
+    # Retrieve the top documents
+    results, scores = bm25_index.retrieve(query_tokens, k=actual_k)
+
+    # Map the retrieved documents back to their indices in the corpus
     return [contextual_chunks.index(doc) for doc in results[0]]
 
 def reciprocal_rank_fusion(*list_of_list_ranks_system, K=60):
