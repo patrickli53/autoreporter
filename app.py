@@ -76,7 +76,7 @@ def api_call(api_key, query, model, instruction=instruction):
     try:
         client = openai.OpenAI(api_key=api_key)
         # Decide messages format based on model support
-        if model in ["o1", "o1-mini", "o3", "o3-mini"]:
+        if model in ["o1", "o1-mini", "o3", "o3-mini", "o4-mini", "o1-pro"]:
             full_prompt = instruction + "\n\n" + query
             messages = [{"role": "user", "content": full_prompt}]
             # These models don't support temperature, so omit it
