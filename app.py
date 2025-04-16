@@ -30,6 +30,8 @@ MODEL_OPTIONS = [
     'o1-mini',
     'o1',
     'o3-mini',
+    'o3',
+    'o4-mini',
     'gpt-4-turbo'
 ]
 DEFAULT_MODEL = 'o3-mini'
