@@ -1,4 +1,9 @@
 streamlit
+openai
 pandas
-openai>=1.0.0
+numpy
+scikit-learn
+pyarrow
 pydantic
+openpyxl
+bm25s
